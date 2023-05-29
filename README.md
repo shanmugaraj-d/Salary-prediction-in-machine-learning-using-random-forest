@@ -1,62 +1,43 @@
 # Salary-prediction-in-machine-learning-using-random-forest
 
-AIM:
-   In this project, we are going to predict whether a person’s income is above 50k or below 50k using various features like age, education, and occupation. The dataset we are going to use is the Adult census income dataset from Kaggle which contains about 32561 rows and 15 features.
+# AIM:
 
-Step 0: Import libraries and dataset
+In this project, we are going to predict whether a person’s income is above 50k or below 50k using various features like age, education, and occupation. The dataset we are going to use is the Adult census income dataset from Kaggle which contains about 32561 rows and 15 features.
+
+# Step 0: Import libraries and dataset
 
 All the standard libraries like numpy, pandas, matplotlib, and seaborn are imported in this step. We use numpy for linear algebra operations, pandas for using data frames, matplotlib, and seaborn for plotting graphs. The dataset is imported using the pandas command read_csv().
 
-# Import libraries
+#Import libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-# Importing dataset
+#Importing dataset
 dataset = pd.read_csv('adult.csv')
 
-Step 1: Descriptive analysis
+# Step 1: Descriptive analysis
 
-# Preview dataset
+#Preview dataset
 dataset.head()
 
 ![image](https://github.com/monkey-d-luffy1/Salary-prediction-in-machine-learning-using-random-forest/assets/88392078/872cd897-f585-49e7-8d1c-e91f8ebfa8e6)
 
-# Shape of dataset
+#Shape of dataset
 print('Rows: {} Columns: {}'.format(dataset.shape[0], dataset.shape[1]))
 Output:
 Rows: 32561 Columns: 15
-# Features data-type 
+#Features data-type 
 dataset.info()
 Output:
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 32561 entries, 0 to 32560
-Data columns (total 15 columns):
- #   Column          Non-Null Count  Dtype 
----  ------          --------------  ----- 
- 0   age             32561 non-null  int64 
- 1   workclass       32561 non-null  object
- 2   fnlwgt          32561 non-null  int64 
- 3   education       32561 non-null  object
- 4   education.num   32561 non-null  int64 
- 5   marital.status  32561 non-null  object
- 6   occupation      32561 non-null  object
- 7   relationship    32561 non-null  object
- 8   race            32561 non-null  object
- 9   sex             32561 non-null  object
- 10  capital.gain    32561 non-null  int64 
- 11  capital.loss    32561 non-null  int64 
- 12  hours.per.week  32561 non-null  int64 
- 13  native.country  32561 non-null  object
- 14  income          32561 non-null  object
-dtypes: int64(6), object(9)
-memory usage: 3.7+ MB
-# Statistical summary
+#Statistical summary
 dataset.describe().T
 
 ![image](https://github.com/monkey-d-luffy1/Salary-prediction-in-machine-learning-using-random-forest/assets/88392078/8772ef2f-fe43-4825-85b6-7fa94730d428)
 
-# Check for null values
+#Check for null values
 round((dataset.isnull().sum() / dataset.shape[0]) * 100, 2).astype(str) + ' %'
 Output:
 age               0.0 %
@@ -75,7 +56,7 @@ hours.per.week    0.0 %
 native.country    0.0 %
 income            0.0 %
 dtype: object
-# Check for '?' in dataset
+#Check for '?' in dataset
 round((dataset.isin(['?']).sum() / dataset.shape[0]) * 100, 2).astype(str) + ' %'
 Output:
 age                0.0 %
@@ -94,7 +75,7 @@ hours.per.week     0.0 %
 native.country    1.79 %
 income             0.0 %
 dtype: object
-# Checking the counts of label categories
+#Checking the counts of label categories
 income = dataset['income'].value_counts(normalize=True)
 round(income * 100, 2).astype('str') + ' %'
 Output:
@@ -107,7 +88,7 @@ Observations:
 1. The dataset doesn’t have any null values, but it contains missing values in the form of ‘?’ which needs to be preprocessed.
 2. The dataset is unbalanced, as the dependent feature ‘income’ contains 75.92% values have income less than 50k, and 24.08% values have income more than 50k.
 
-Step 2: Exploratory Data Analysis
+# Step 2: Exploratory Data Analysis
 
 2.1 Univariate Analysis:
 
@@ -148,12 +129,12 @@ Observations:
 1. In this dataset, the most number of people are young, white, male, high school graduates with 9 to 10 years of education, and work 40 hours per week.
 2. From the correlation heatmap, we can see that the dependent feature ‘income’ is highly correlated with age, numbers of years of education, capital gain, and the number of hours per week.
 
-Step 3: Data preprocessing
+# Step 3: Data preprocessing
 
 The null values are in the form of ‘?’ which can be easily replaced with the most frequent value(mode) using the fillna() command.
 
 dataset = dataset.replace('?', np.nan)
-# Checking null values
+#Checking null values
 round((dataset.isnull().sum() / dataset.shape[0]) * 100, 2).astype(str) + ' %'
 Output:
 age                0.0 %
@@ -252,7 +233,7 @@ X_test shape: (9888, 8)
 Y_train shape: (39552,)
 Y_test shape: (9888,)
 
-Step 4: Data Modelling
+# Step 4: Data Modelling
 
 Random Forest Classifier:
 
@@ -270,7 +251,7 @@ Random forests are very flexible and give high accuracy as it overcomes the prob
 
 This algorithm has some important parameters like max_depth, max_features, n_estimators, and min_sample_leaf. The number of trees which can be used to build the model is defined by n_estimators. Max_features determines the maximum number of features the random forest can use in an individual tree. The maximum depth of the decision trees is given by the parameter max_depth. The minimum number of samples required at a leaf node is given by min_sample_leaf.
 
-Step 5: Model Evaluation
+# Step 5: Model Evaluation
 
 In this step, we will evaluate our model using two metrics which are accuracy_score and f1_score. Accuracy is the ratio of correct predicted values over the total predicted values. It tells us how accurate our prediction is. F1 score is the weighted average of precision and recall and higher its value better the model. We will use the accuracy score with f1 score as we have an imbalanced dataset.
 
@@ -284,7 +265,7 @@ Random Forest Classifier:
 Accuracy score: 92.6
 F1 score: 92.93
 
-Step 6: Hyperparameter Tuning
+# Step 6: Hyperparameter Tuning
 
 We will tune the hyperparameters of our random forest classifier using RandomizedSearchCV which finds the best hyperparameters by searching randomly avoiding unnecessary computation. We will try to find the best values for ‘n_estimators’ and ‘max_depth’.
 
@@ -334,14 +315,14 @@ weighted avg       0.93      0.93      0.93      9888
 
 The model gives us the best values for an accuracy score of 92.77 and f1 score of 93.08 after tuning its hyperparameters.
 
-SUMMARY:
+# SUMMARY:
 
 I used the Random Forest Classifier model which gives 93% accuracy on the testing data. This is a simple Random Forest Classifier model which can be easily understandable by beginners.
 
-CONCLUSION:
+# CONCLUSION:
 
 In this paper we proposed a salary prediction system by using a random forest algorithm. For the proper salary prediction, we found out the most relevant feature. The result of the system is calculated by a suitable algorithm by comparing it with other algorithms in terms of standard scores and curves like the classification accuracy, the score, the ROC curve. We compared the algorithm with the basic model. Moreover, we continued with the basic model and found out the most appropriate method to add more attributes and with the highest accuracy of 93%.
 
-Future work:
+# Future work:
 
 We have a large enough dataset, so we can use neural networks such as an artificial neural network to build a model that can result in better performance.
